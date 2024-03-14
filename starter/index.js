@@ -120,7 +120,7 @@ function init() {
 
 function menu() {
   inquirer.prompt(menuQuestions).then((answers) => {
-    console.log(answers);
+    // console.log(answers);
     if (answers.option === "engineer") {
       createEngineer();
     } else if (answers.option === "intern") {
@@ -138,7 +138,7 @@ function createEngineer() {
 }
 
 function createIntern() {
-  const intObj = Intern();
+  const intObj = intern();
   employeeArr.push(intObj);
   menu();
 }
