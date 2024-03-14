@@ -118,7 +118,7 @@ function init() {
   });
 }
 
-function menu() {
+async function menu() {
   inquirer.prompt(menuQuestions).then((answers) => {
     // console.log(answers);
     if (answers.option === "engineer") {
