@@ -107,18 +107,19 @@ const menuQuestions = [
 ];
 
 function init() {
-  inquirer.prompt(managerQuestions).then((answers) => {
+  return inquirer.prompt(managerQuestions).then((answers) => {
     const name = answers.name;
     const ID = answers.employeeID;
     const email = answers.email;
     const officeNum = answers.officeNumber;
     const manObj = new Manager(name, ID, email, officeNum);
+    console.log(manObj);
     employeeArr.push(manObj);
     menu();
   });
 }
 
-async function menu() {
+function menu() {
   inquirer.prompt(menuQuestions).then((answers) => {
     // console.log(answers);
     if (answers.option === "engineer") {
@@ -144,24 +145,22 @@ function createIntern() {
 }
 
 function engineer() {
-  inquirer.prompt(engineerQuestions).then((answers) => {
+  return inquirer.prompt(engineerQuestions).then((answers) => {
     const name = answers.name;
-    const ID = answers.ID;
+    const ID = answers.employeeID;
     const email = answers.email;
     const github = answers.github;
-    const engObj = new Engineer(name, ID, email, github);
-    return engObj;
+    return new Engineer(name, ID, email, github);
   });
 }
 
 function intern() {
-  inquirer.prompt(internQuestions).then((answers) => {
+  return inquirer.prompt(internQuestions).then((answers) => {
     const name = answers.name;
-    const ID = answers.ID;
+    const ID = answers.employeeID;
     const email = answers.email;
     const school = answers.school;
-    const intObj = new Intern(name, ID, email, school);
-    return intObj;
+    return new Intern(name, ID, email, school);
   });
 }
 
