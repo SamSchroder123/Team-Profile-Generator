@@ -160,7 +160,7 @@ function intern() {
     const ID = answers.ID;
     const email = answers.email;
     const school = answers.school;
-    const intObj = new Engineer(name, ID, email, school);
+    const intObj = new Intern(name, ID, email, school);
     return intObj;
   });
 }
