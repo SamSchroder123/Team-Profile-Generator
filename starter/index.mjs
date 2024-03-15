@@ -1,14 +1,23 @@
-const Manager = require("./lib/Manager");
-const Engineer = require("./lib/Engineer");
-const Intern = require("./lib/Intern");
-const inquirer = require("inquirer");
-const path = require("path");
-const fs = require("fs");
+import("./lib/Manager.mjs").then((module) => {
+  const Manager = module.default;
+});
+import("./lib/Engineer.mjs").then((module) => {
+  const Engineer = module.default;
+});
+import("./lib/Engineer.mjs").then((module) => {
+  const Engineer = module.default;
+});
+import inquirer from "inquirer";
+import path from "path";
+import fs from "fs";
+
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(__filename);
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-const render = require("./src/page-template.js");
+import generateTeamPage from "./src/page-template.mjs";
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 
@@ -106,22 +115,21 @@ const menuQuestions = [
   },
 ];
 
-function init() {
-  return inquirer.prompt(managerQuestions).then((answers) => {
-    const name = answers.name;
-    const ID = answers.employeeID;
-    const email = answers.email;
-    const officeNum = answers.officeNumber;
-    const manObj = new Manager(name, ID, email, officeNum);
-    console.log(manObj);
-    employeeArr.push(manObj);
+async function init() {
+  try {
+    const answers = await inquirer.prompt(managerQuestions);
+    const { name, employeeID, email, officeNumber } = answers;
+    const manager = new Manager(name, employeeID, email, officeNumber);
+    console.log(manager);
+    employeeArr.push(manager);
     menu();
-  });
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
 }
 
 function menu() {
   inquirer.prompt(menuQuestions).then((answers) => {
-    // console.log(answers);
     if (answers.option === "engineer") {
       createEngineer();
     } else if (answers.option === "intern") {
@@ -133,15 +141,27 @@ function menu() {
 }
 
 function createEngineer() {
-  const engObj = engineer();
-  employeeArr.push(engObj);
-  menu();
+  engineer()
+    .then((engObj) => {
+      employeeArr.push(engObj);
+      menu();
+    })
+    .catch((error) => {
+      console.error("An error occurred while creating an Engineer:", error);
+      menu(); // Continue to the menu even if an error occurs
+    });
 }
 
 function createIntern() {
-  const intObj = intern();
-  employeeArr.push(intObj);
-  menu();
+  intern()
+    .then((intObj) => {
+      employeeArr.push(intObj);
+      menu();
+    })
+    .catch((error) => {
+      console.error("An error occurred while creating an Intern:", error);
+      menu(); // Continue to the menu even if an error occurs
+    });
 }
 
 function engineer() {
@@ -165,7 +185,7 @@ function intern() {
 }
 
 function finish(employeeArr) {
-  const html = render(employeeArr);
+  const html = generateTeamPage(employeeArr);
   document.getElementById("root").appendChild(html);
 }
 
