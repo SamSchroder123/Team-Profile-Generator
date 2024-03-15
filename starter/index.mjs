@@ -186,7 +186,14 @@ function intern() {
 
 function finish(employeeArr) {
   const html = generateTeamPage(employeeArr);
-  document.getElementById("root").appendChild(html);
+
+  fs.writeFile(outputPath, html, (err) => {
+    if (err) {
+      console.error("An error occurred while writing the HTML file:", err);
+    } else {
+      console.log("Team page generated successfully!");
+    }
+  });
 }
 
 const employeeArr = [];
