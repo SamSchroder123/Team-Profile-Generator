@@ -1,23 +1,16 @@
-import("./lib/Manager.mjs").then((module) => {
-  const Manager = module.default;
-});
-import("./lib/Engineer.mjs").then((module) => {
-  const Engineer = module.default;
-});
-import("./lib/Intern.mjs").then((module) => {
-  const Intern = module.default;
-});
-import inquirer from "inquirer";
-import path from "path";
-import fs from "fs";
+const Manager = require("./lib/Manager.js");
+const Engineer = require("./lib/Engineer.js");
+const Intern = require("./lib/Engineer.js");
+const inquirer = require("inquirer");
+const path = require("path");
+const fs = require("fs");
+const generateTeamPage = require("./src/page-template.js");
 
-const __filename = new URL(import.meta.url).pathname;
-const __dirname = path.dirname(__filename);
+// const __filename = new URL(import.meta.url).pathname;
+// const __dirname = path.dirname(__filename);
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
-
-import generateTeamPage from "./src/page-template.mjs";
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 const employeeArr = [];
@@ -118,8 +111,9 @@ const menuQuestions = [
 
 async function init() {
   try {
-    const answers = await inquirer.prompt(managerQuestions);
-    const { name, employeeID, email, officeNumber } = answers;
+    const response = await inquirer.prompt(managerQuestions);
+    const { name, employeeID, email, officeNumber } = response;
+    // console.log(name, employeeID);
     const manager = new Manager(name, employeeID, email, officeNumber);
     console.log(manager);
     employeeArr.push(manager);

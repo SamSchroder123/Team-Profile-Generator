@@ -117,4 +117,4 @@ const generateTeamPage = (team) => {
     `;
 };
 
-export default generateTeamPage;
+module.exports = generateTeamPage;
