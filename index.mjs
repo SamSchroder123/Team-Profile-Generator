@@ -4,8 +4,8 @@ import("./lib/Manager.mjs").then((module) => {
 import("./lib/Engineer.mjs").then((module) => {
   const Engineer = module.default;
 });
-import("./lib/Engineer.mjs").then((module) => {
-  const Engineer = module.default;
+import("./lib/Intern.mjs").then((module) => {
+  const Intern = module.default;
 });
 import inquirer from "inquirer";
 import path from "path";
@@ -20,6 +20,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 import generateTeamPage from "./src/page-template.mjs";
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
+const employeeArr = [];
 
 const managerQuestions = [
   {
@@ -196,5 +197,4 @@ function finish(employeeArr) {
   });
 }
 
-const employeeArr = [];
 init();
